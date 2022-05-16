@@ -1,6 +1,5 @@
+import Home from 'routes/home/index'
 import styles from './Routes.module.scss'
-
-import Home from './home'
 
 const App = () => {
   return (
