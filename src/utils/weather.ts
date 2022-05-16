@@ -1,5 +1,3 @@
-import { CloudIcon, RainIcon } from 'assets/svgs/weather'
-
 export const getWeatherIcon = (desc: string) => {
   let weatherIconName = RainIcon
   switch (desc) {
