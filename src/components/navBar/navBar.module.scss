@@ -1,0 +1,25 @@
+@use '../../styles/constants/colors';
+
+.navBarContainer {
+    width: 100%;
+    background-color: white;
+    .navBar {
+        display: flex;
+        justify-content: space-between;
+        .title {
+            margin: 10px;
+        }
+        .toggleButton {
+            padding: 10px 15px;
+        }
+    }
+    .menus {
+        text-align: center;
+        .menu {
+            color: colors.$TEXT_TITLE;
+            padding: 20px 0;
+            border-bottom: 1.2px solid colors.$GRAYD;
+            cursor: pointer;
+        }
+    }
+}

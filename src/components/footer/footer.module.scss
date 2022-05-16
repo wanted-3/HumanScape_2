@@ -18,7 +18,7 @@
   margin-bottom: 20px;
   background-color: white;
   border-radius: 15px;
-  box-shadow: 0 8px 16px rgb(30 32 37 / 10%);
+  box-shadow: 0 8px 16px rgba(30, 32, 37, 10%);
 }
 
 .footerDetailWrap {
@@ -43,7 +43,7 @@
 .subContent {
   margin-bottom: 20px;
   font-weight: 600;
-  color: #007be9;
+  color: colors.$PRIMARY;
 }
 
 .bannerBtn {
@@ -51,8 +51,8 @@
   height: 30px;
   font-size: 14px;
   font-weight: bold;
-  color: white;
-  background-color: #007be9;
+  color: colors.$WHITE;
+  background-color: colors.$PRIMARY;
   border-radius: 50px;
 }
 
@@ -67,7 +67,7 @@
 
   span {
     font-weight: bold;
-    color: #a7afb7;
+    color: colors.$TEXT_FOOTER;
   }
 }
 
