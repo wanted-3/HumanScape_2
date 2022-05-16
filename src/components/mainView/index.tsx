@@ -1,34 +1,40 @@
 import { SearchIcon } from 'assets/svgs'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
-// import { useQuery } from 'react-query'
-// import { getDeseaseAPi } from 'services/desease'
+import { useQuery } from 'react-query'
+import { getDeseaseAPi } from 'services/desease'
 
 import styles from './mainView.module.scss'
 import SearchItem from './SearchItem'
 
+const deseaseFetch = (value: string) => {
+  if (value === '') return null
+
+  return getDeseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
+}
 const MainView = () => {
   const [inputVal, setInputVal] = useState('')
-  // const [searchValue, setSearchValue] = useState('')
+  const [submitValue, setSubmitValue] = useState<string>('')
 
-  // const { data, isLoading } = useQuery(['deseaseData'], () =>
-  //   getDeseaseAPi({ searchText: searchValue }).then((res) => res.data.response.body.items.item)
-  // )
+  const { data: deseaseSearchData, isLoading } = useQuery(
+    ['deseaseData', submitValue],
+    () => deseaseFetch(submitValue),
+    {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    }
+  )
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // setSearchValue(inputVal)
+    if (inputVal === '') return
+
+    setSubmitValue(inputVal)
   }
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value)
   }
-
-  // if (isLoading) {
-  //   return <div>Loading....</div>
-  // }
-
-  // console.log(data)
 
   return (
     <div className={styles.mainWrapper}>
@@ -46,8 +52,8 @@ const MainView = () => {
 
       <ul className={styles.searchItemUl}>
         <li className={styles.recommendSearchLi}>추천 검색어</li>
-        {[1, 2, 3, 4, 5, 6].map((item) => (
-          <SearchItem key={item} item={item} />
+        {deseaseSearchData?.map((desease) => (
+          <SearchItem key={desease.sickCd} deseaseName={desease.sickNm} />
         ))}
       </ul>
     </div>
