@@ -2,16 +2,16 @@ import { SearchIcon } from 'assets/svgs'
 import styles from './searchItem.module.scss'
 
 interface SearchItemProps {
-  deseaseName: string
+  diseaseName: string
 }
-const SearchItem = ({ deseaseName }: SearchItemProps) => {
+const SearchItem = ({ diseaseName }: SearchItemProps) => {
   // console.log(item)
 
   return (
     <li className={styles.searchItemLi}>
       <button type='button'>
         <SearchIcon className={styles.searchIcon} />
-        <span>{deseaseName}</span>
+        <span>{diseaseName}</span>
       </button>
     </li>
   )

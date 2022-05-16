@@ -7,7 +7,7 @@ interface Params {
   searchText: string
 }
 
-interface DeseaseApi {
+interface DiseaseApi {
   response: {
     body: {
       items: {
@@ -20,6 +20,6 @@ interface DeseaseApi {
   }
 }
 
-export const getDeseaseAPi = (params: Params) => {
-  return axios.get<DeseaseApi>(`${url}`, { params })
+export const getDiseaseAPi = (params: Params) => {
+  return axios.get<DiseaseApi>(`${url}`, { params })
 }

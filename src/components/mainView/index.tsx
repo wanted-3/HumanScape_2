@@ -2,23 +2,23 @@ import { SearchIcon } from 'assets/svgs'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
 import { useQuery } from 'react-query'
-import { getDeseaseAPi } from 'services/desease'
+import { getDiseaseAPi } from 'services/disease'
 
 import styles from './mainView.module.scss'
 import SearchItem from './SearchItem'
 
-const deseaseFetch = (value: string) => {
+const diseaseFetch = (value: string) => {
   if (value === '') return null
 
-  return getDeseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
+  return getDiseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
 }
 const MainView = () => {
   const [inputVal, setInputVal] = useState('')
   const [submitValue, setSubmitValue] = useState<string>('')
 
-  const { data: deseaseSearchData, isLoading } = useQuery(
-    ['deseaseData', submitValue],
-    () => deseaseFetch(submitValue),
+  const { data: diseaseSearchData, isLoading } = useQuery(
+    ['diseaseData', submitValue],
+    () => diseaseFetch(submitValue),
     {
       staleTime: Infinity,
       cacheTime: Infinity,
@@ -52,8 +52,8 @@ const MainView = () => {
 
       <ul className={styles.searchItemUl}>
         <li className={styles.recommendSearchLi}>추천 검색어</li>
-        {deseaseSearchData?.map((desease) => (
-          <SearchItem key={desease.sickCd} deseaseName={desease.sickNm} />
+        {diseaseSearchData?.map((disease) => (
+          <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} />
         ))}
       </ul>
     </div>
