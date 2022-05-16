@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import system from './system'
+import counter from './counter'
 
 export const store = configureStore({
   reducer: {
-    system,
+    counter,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
