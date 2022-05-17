@@ -1,6 +1,6 @@
 import { axios } from 'hooks/worker'
 
-const url = `/B551182/diseaseInfoService/getDissNameCodeList?_type=json&sickType=1&medTp=2&ServiceKey=${process.env.REACT_APP_API_KEY}`
+const url = `/B551182/diseaseInfoService/getDissNameCodeList?_type=json&sickType=2&medTp=1&ServiceKey=${process.env.REACT_APP_API_KEY}`
 
 interface Params {
   // pageNo: number
