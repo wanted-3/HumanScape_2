@@ -43,15 +43,21 @@ const MainView = () => {
     setInputVal(e.currentTarget.value)
   }
 
-  const handleKeyArrow = (e: KeyboardEvent<HTMLUListElement>) => {
-    if (e) {
+  const handleKeyArrow = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (diseaseSearchData && e) {
       switch (e.key) {
         case 'ArrowDown':
-          if (selectRef.current?.childElementCount === index + 1) setIndex(0)
+          if (selectRef.current?.childElementCount === index + 1) {
+            setIndex(0)
+            break
+          }
           setIndex(index + 1)
           break
         case 'ArrowUp':
-          if (index <= 0) setIndex(-1)
+          if (index < 0) {
+            setIndex(-1)
+            break
+          }
           setIndex(index - 1)
           break
         case 'Escape':
@@ -68,7 +74,7 @@ const MainView = () => {
         <span>온라인으로 참여하기</span>
       </h1>
 
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit} onKeyDown={handleKeyArrow} role='presentation'>
         <input placeholder='질환명을 입력해 주세요.' value={inputVal} onChange={handleInput} />
         <button type='submit'>
           <SearchIcon className={styles.searchIcon} />
@@ -76,7 +82,7 @@ const MainView = () => {
       </form>
 
       {inputVal && (
-        <ul ref={selectRef} className={styles.searchItemUl} onKeyDown={handleKeyArrow}>
+        <ul ref={selectRef} className={styles.searchItemUl}>
           <li className={styles.recommendSearchLi}>추천 검색어</li>
           {isLoading && <li>Loading...</li>}
 

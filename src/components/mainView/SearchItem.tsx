@@ -1,4 +1,5 @@
 import { SearchIcon } from 'assets/svgs'
+import { cx } from 'styles'
 import styles from './searchItem.module.scss'
 
 interface SearchItemProps {
@@ -7,7 +8,7 @@ interface SearchItemProps {
 }
 const SearchItem = ({ diseaseName, isFocus }: SearchItemProps) => {
   return (
-    <li className={styles.searchItemLi}>
+    <li className={cx(styles.searchItemLi, { [styles.focusedLi]: isFocus })}>
       <button type='button'>
         <SearchIcon className={styles.searchIcon} />
         <span>{diseaseName}</span>

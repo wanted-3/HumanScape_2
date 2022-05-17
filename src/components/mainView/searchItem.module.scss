@@ -1,7 +1,11 @@
 @use '/src/styles/constants/colors';
 
 .searchItemLi {
-  margin-bottom: 20px;
+  padding: 10px;
+
+  .selectedISearchItem {
+    background-color: red;
+  }
 
   .selectedISearchItem {
     background-color: red;
@@ -25,4 +29,9 @@
       stroke: colors.$GRAY2;
     }
   }
+}
+
+.focusedLi {
+  border-radius: 12px;
+  box-shadow: rgba(99, 99, 99, 20%) 0 2px 8px 0;
 }
