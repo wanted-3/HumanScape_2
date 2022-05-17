@@ -12,14 +12,17 @@ const diseaseFetch = (value: string) => {
   if (value === '') return undefined
 
   console.log('api 호출')
-  return getDiseaseAPi({ searchText: value }).then((res) => {
-    const searchData: {
-      sickCd: string
-      sickNm: string
-    }[] = []
 
-    return searchData.concat(res.data.response.body.items.item)
-  })
+  return getDiseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
+
+  // return getDiseaseAPi({ searchText: value }).then((res) => {
+  //   const searchData: {
+  //     sickCd: string
+  //     sickNm: string
+  //   }[] = []
+
+  //   return searchData.concat(res.data.response.body.items.item)
+  // })
 }
 
 const MainView = () => {
