@@ -6,9 +6,6 @@ interface SearchItemProps {
   isFocus: boolean
 }
 const SearchItem = ({ diseaseName, isFocus }: SearchItemProps) => {
-  // console.log(item)
-
-  console.log('isFocus', isFocus)
   return (
     <li className={styles.searchItemLi}>
       <button type='button'>

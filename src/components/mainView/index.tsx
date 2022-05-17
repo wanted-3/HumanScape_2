@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { SearchIcon } from 'assets/svgs'
+import useQueryDebounce from 'hooks/useQueryDebounce'
 import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from 'react'
 
 import { useQuery } from 'react-query'
@@ -9,8 +10,9 @@ import styles from './mainView.module.scss'
 import SearchItem from './SearchItem'
 
 const diseaseFetch = (value: string) => {
-  if (value === '') return null
+  if (value === '') return undefined
 
+  console.log('api 호출')
   return getDiseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
 }
 
@@ -20,9 +22,11 @@ const MainView = () => {
   const [index, setIndex] = useState(-1)
   const selectRef = useRef<HTMLUListElement>(null)
 
+  const debounceInput = useQueryDebounce(inputVal, 1000)
+
   const { data: diseaseSearchData, isLoading } = useQuery(
-    ['diseaseData', submitValue],
-    () => diseaseFetch(submitValue),
+    ['diseaseData', debounceInput],
+    () => diseaseFetch(debounceInput),
     {
       staleTime: Infinity,
       cacheTime: Infinity,
@@ -31,27 +35,19 @@ const MainView = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (inputVal === '') return
 
     setSubmitValue(inputVal)
   }
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    // let timer: any
-    // clearTimeout(timer)
-    // timer = setTimeout(() => {
-    //   console.log('api 요청')
-    // }, 3000)
     setInputVal(e.currentTarget.value)
   }
 
   const handleKeyArrow = (e: KeyboardEvent<HTMLUListElement>) => {
     if (e) {
-      console.log(e)
       switch (e.key) {
         case 'ArrowDown':
           if (selectRef.current?.childElementCount === index + 1) setIndex(0)
-          console.log(selectRef.current)
           setIndex(index + 1)
           break
         case 'ArrowUp':
@@ -79,12 +75,20 @@ const MainView = () => {
         </button>
       </form>
 
-      <ul ref={selectRef} className={styles.searchItemUl} onKeyDown={handleKeyArrow}>
-        <li className={styles.recommendSearchLi}>추천 검색어</li>
-        {diseaseSearchData?.map((disease, idx) => (
-          <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === index} />
-        ))}
-      </ul>
+      {inputVal && (
+        <ul ref={selectRef} className={styles.searchItemUl} onKeyDown={handleKeyArrow}>
+          <li className={styles.recommendSearchLi}>추천 검색어</li>
+          {isLoading && <li>Loading...</li>}
+
+          {diseaseSearchData === undefined ? (
+            <li>검색어 없음</li>
+          ) : (
+            diseaseSearchData.map((disease, idx) => (
+              <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === index} />
+            ))
+          )}
+        </ul>
+      )}
     </div>
   )
 }
