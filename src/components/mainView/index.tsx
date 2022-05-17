@@ -13,16 +13,17 @@ const diseaseFetch = (value: string) => {
 
   console.log('api 호출')
 
-  return getDiseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
+  return getDiseaseAPi({ searchText: value }).then((res) => {
+    const searchData: {
+      sickCd: string
+      sickNm: string
+    }[] = []
+    const itemData = res.data.response.body.items.item
 
-  // return getDiseaseAPi({ searchText: value }).then((res) => {
-  //   const searchData: {
-  //     sickCd: string
-  //     sickNm: string
-  //   }[] = []
+    if (itemData === undefined) return searchData
 
-  //   return searchData.concat(res.data.response.body.items.item)
-  // })
+    return searchData.concat(itemData)
+  })
 }
 
 const MainView = () => {
