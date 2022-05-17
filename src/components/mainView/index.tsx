@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { SearchIcon } from 'assets/svgs'
 import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from 'react'
 
@@ -45,17 +44,21 @@ const MainView = () => {
     setInputVal(e.currentTarget.value)
   }
 
-  const handleKeyArrow = (e: KeyboardEvent<HTMLUListElement>) => {
-    if (e) {
-      console.log(e)
+  const handleKeyArrow = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (diseaseSearchData && submitValue && e) {
       switch (e.key) {
         case 'ArrowDown':
-          if (selectRef.current?.childElementCount === index + 1) setIndex(0)
-          console.log(selectRef.current)
+          if (selectRef.current?.childElementCount === index + 1) {
+            setIndex(0)
+            break
+          }
           setIndex(index + 1)
           break
         case 'ArrowUp':
-          if (index <= 0) setIndex(-1)
+          if (index < 0) {
+            setIndex(-1)
+            break
+          }
           setIndex(index - 1)
           break
         case 'Escape':
@@ -72,19 +75,21 @@ const MainView = () => {
         <span>온라인으로 참여하기</span>
       </h1>
 
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit} onKeyDown={handleKeyArrow} role='presentation'>
         <input placeholder='질환명을 입력해 주세요.' value={inputVal} onChange={handleInput} />
         <button type='submit'>
           <SearchIcon className={styles.searchIcon} />
         </button>
       </form>
 
-      <ul ref={selectRef} className={styles.searchItemUl} onKeyDown={handleKeyArrow}>
-        <li className={styles.recommendSearchLi}>추천 검색어</li>
-        {diseaseSearchData?.map((disease, idx) => (
-          <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === index} />
-        ))}
-      </ul>
+      {diseaseSearchData && (
+        <ul ref={selectRef} className={styles.searchItemUl}>
+          <li className={styles.recommendSearchLi}>추천 검색어</li>
+          {diseaseSearchData?.map((disease, idx) => (
+            <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === index} />
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
