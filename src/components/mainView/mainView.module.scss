@@ -32,7 +32,7 @@
 
   input {
     width: 100%;
-    padding: 15px 30px;
+    padding: 15px 60px 15px 30px;
     background-color: colors.$WHITE;
     border-radius: 50px;
     box-shadow: 0 2px 2px rgba(30, 32, 37, 10%);
@@ -40,7 +40,7 @@
 
   button {
     position: absolute;
-    left: 92%;
+    right: 30px;
 
     .searchIcon {
       width: 20px;

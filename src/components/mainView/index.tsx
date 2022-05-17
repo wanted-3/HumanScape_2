@@ -6,6 +6,7 @@ import { getDiseaseAPi } from 'services/disease'
 
 import styles from './mainView.module.scss'
 import SearchItem from './SearchItem'
+import { createFuzzyMatcher } from 'utils/fuzzy'
 
 const diseaseFetch = (value: string) => {
   if (value === '') return null
@@ -35,6 +36,8 @@ const MainView = () => {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value)
   }
+
+  console.log(createFuzzyMatcher('가나다라'))
 
   return (
     <div className={styles.mainWrapper}>

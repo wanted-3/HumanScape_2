@@ -5,8 +5,6 @@ interface SearchItemProps {
   diseaseName: string
 }
 const SearchItem = ({ diseaseName }: SearchItemProps) => {
-  // console.log(item)
-
   return (
     <li className={styles.searchItemLi}>
       <button type='button'>
