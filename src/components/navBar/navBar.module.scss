@@ -1,6 +1,8 @@
 @use '../../styles/constants/colors';
 
 .navBarContainer {
+  position: fixed;
+  z-index: 99;
   width: 100%;
   background-color: white;
 
@@ -14,6 +16,7 @@
 
     .toggleButton {
       padding: 10px 15px;
+      cursor: pointer;
     }
   }
 
