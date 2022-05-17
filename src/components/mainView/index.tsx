@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { SearchIcon } from 'assets/svgs'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from 'react'
 
 import { useQuery } from 'react-query'
 import { getDiseaseAPi } from 'services/disease'
@@ -12,9 +13,12 @@ const diseaseFetch = (value: string) => {
 
   return getDiseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
 }
+
 const MainView = () => {
   const [inputVal, setInputVal] = useState('')
   const [submitValue, setSubmitValue] = useState<string>('')
+  const [index, setIndex] = useState(-1)
+  const selectRef = useRef<HTMLUListElement>(null)
 
   const { data: diseaseSearchData, isLoading } = useQuery(
     ['diseaseData', submitValue],
@@ -33,7 +37,32 @@ const MainView = () => {
   }
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    // let timer: any
+    // clearTimeout(timer)
+    // timer = setTimeout(() => {
+    //   console.log('api 요청')
+    // }, 3000)
     setInputVal(e.currentTarget.value)
+  }
+
+  const handleKeyArrow = (e: KeyboardEvent<HTMLUListElement>) => {
+    if (e) {
+      console.log(e)
+      switch (e.key) {
+        case 'ArrowDown':
+          if (selectRef.current?.childElementCount === index + 1) setIndex(0)
+          console.log(selectRef.current)
+          setIndex(index + 1)
+          break
+        case 'ArrowUp':
+          if (index <= 0) setIndex(-1)
+          setIndex(index - 1)
+          break
+        case 'Escape':
+          setIndex(-1)
+          break
+      }
+    }
   }
 
   return (
@@ -50,10 +79,10 @@ const MainView = () => {
         </button>
       </form>
 
-      <ul className={styles.searchItemUl}>
+      <ul ref={selectRef} className={styles.searchItemUl} onKeyDown={handleKeyArrow}>
         <li className={styles.recommendSearchLi}>추천 검색어</li>
-        {diseaseSearchData?.map((disease) => (
-          <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} />
+        {diseaseSearchData?.map((disease, idx) => (
+          <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === index} />
         ))}
       </ul>
     </div>

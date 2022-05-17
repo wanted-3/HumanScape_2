@@ -3,6 +3,10 @@
 .searchItemLi {
   margin-bottom: 20px;
 
+  .selectedISearchItem {
+    background-color: red;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
