@@ -3,10 +3,12 @@ import styles from './searchItem.module.scss'
 
 interface SearchItemProps {
   diseaseName: string
+  isFocus: boolean
 }
-const SearchItem = ({ diseaseName }: SearchItemProps) => {
+const SearchItem = ({ diseaseName, isFocus }: SearchItemProps) => {
   // console.log(item)
 
+  console.log('isFocus', isFocus)
   return (
     <li className={styles.searchItemLi}>
       <button type='button'>
