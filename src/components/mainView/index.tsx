@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { SearchIcon } from 'assets/svgs'
 import useQueryDebounce from 'hooks/useQueryDebounce'
-import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 
 import { useQuery } from 'react-query'
 import { getDiseaseAPi } from 'services/disease'
@@ -13,7 +12,14 @@ const diseaseFetch = (value: string) => {
   if (value === '') return undefined
 
   console.log('api 호출')
-  return getDiseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
+  return getDiseaseAPi({ searchText: value }).then((res) => {
+    const searchData: {
+      sickCd: string
+      sickNm: string
+    }[] = []
+
+    return searchData.concat(res.data.response.body.items.item)
+  })
 }
 
 const MainView = () => {
@@ -22,7 +28,7 @@ const MainView = () => {
   const [index, setIndex] = useState(-1)
   const selectRef = useRef<HTMLUListElement>(null)
 
-  const debounceInput = useQueryDebounce(inputVal, 1000)
+  const debounceInput = useQueryDebounce(inputVal, 300)
 
   const { data: diseaseSearchData, isLoading } = useQuery(
     ['diseaseData', debounceInput],
@@ -54,6 +60,10 @@ const MainView = () => {
           setIndex(index + 1)
           break
         case 'ArrowUp':
+          if (selectRef.current && index === -1) {
+            setIndex(selectRef.current.childElementCount)
+            break
+          }
           if (index < 0) {
             setIndex(-1)
             break
@@ -66,6 +76,10 @@ const MainView = () => {
       }
     }
   }
+
+  useEffect(() => {
+    setIndex(-1)
+  }, [diseaseSearchData])
 
   return (
     <div className={styles.mainWrapper}>

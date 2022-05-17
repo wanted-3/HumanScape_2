@@ -3,14 +3,6 @@
 .searchItemLi {
   padding: 10px;
 
-  .selectedISearchItem {
-    background-color: red;
-  }
-
-  .selectedISearchItem {
-    background-color: red;
-  }
-
   &:last-child {
     margin-bottom: 0;
   }
@@ -32,6 +24,7 @@
 }
 
 .focusedLi {
+  background-color: colors.$GRAYD;
   border-radius: 12px;
   box-shadow: rgba(99, 99, 99, 20%) 0 2px 8px 0;
 }
