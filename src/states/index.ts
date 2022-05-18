@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
+import search from './search'
 
 export const store = configureStore({
-  reducer: {},
+  reducer: { search },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 })

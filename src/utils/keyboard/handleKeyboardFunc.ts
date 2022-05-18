@@ -16,7 +16,7 @@ const handleKeyboardFunc = (
           break
         }
 
-        setFocusItemIndex(focusedItemIndex + 1)
+        setFocusItemIndex((prev) => prev + 1)
         break
 
       case 'ArrowUp':
@@ -30,7 +30,7 @@ const handleKeyboardFunc = (
           break
         }
 
-        setFocusItemIndex(focusedItemIndex - 1)
+        setFocusItemIndex((prev) => prev - 1)
         break
 
       case 'Escape':

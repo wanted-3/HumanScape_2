@@ -73,18 +73,19 @@
 
 @include responsive.after(1040px) {
   .title {
+    padding: 80px 0;
     font-size: xx-large;
     line-height: 40px;
-    padding: 80px 0;
   }
 
   .form {
     margin-bottom: 30px;
 
     input {
-    padding: 20px 30px;
-    font-size: large;
+      padding: 20px 30px;
+      font-size: large;
     }
+
     button {
       .searchIcon {
         width: 25px;

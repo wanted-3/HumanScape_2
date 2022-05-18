@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, KeyboardEvent, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import useQueryDebounce from 'hooks/useQueryDebounce'
@@ -11,6 +11,8 @@ import Loading from './Loading'
 import NoSearch from './NoSearch'
 import handleKeyboardFunc from 'utils/keyboard/handleKeyboardFunc'
 import useHandleResetOrder from 'hooks/useHandleResetOrder'
+import { useAppDispatch } from 'hooks'
+import { searchState } from 'states/search'
 
 const diseaseFetch = (searchValue: string) => {
   if (searchValue === '') return []
@@ -47,6 +49,12 @@ const MainView = () => {
     }
   )
 
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(searchState(debounceInputValue))
+  }, [debounceInputValue, dispatch])
+
   const handleForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
   }
@@ -60,8 +68,6 @@ const MainView = () => {
   }
 
   useHandleResetOrder(setFocusItemIndex, diseaseSearchResult)
-
-  console.log(diseaseSearchResult)
 
   return (
     <main className={styles.main}>
@@ -83,12 +89,7 @@ const MainView = () => {
           <Loading isView={isLoading} />
           <NoSearch isView={diseaseSearchResult} />
           {diseaseSearchResult?.map((disease, idx) => (
-            <SearchItem
-              key={disease.sickCd}
-              diseaseName={disease.sickNm}
-              isFocus={idx === focusedItemIndex}
-              inputValue={debounceInputValue}
-            />
+            <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === focusedItemIndex} />
           ))}
         </ul>
       )}
