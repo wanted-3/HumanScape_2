@@ -45,6 +45,10 @@ git clone https://github.com/wanted-3/HumanScape_2.git
 ```
 yarn install && yarn start
 ```
+```
+.env 파일에 REACT_APP_API_KEY 를 입력
+```
+[API KEY 받는 곳](https://www.data.go.kr/data/15001675/openapi.do)
 
 1. [hs-search-app.netlify.app/](https://hs-search-app.netlify.app/) 에 접속하여, 원하는 검색어를 검색창에 입력합니다.
 
