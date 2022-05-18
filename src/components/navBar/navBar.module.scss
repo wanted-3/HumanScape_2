@@ -1,10 +1,11 @@
 @use '../../styles/constants/colors';
 
 .navBarWrapper {
-  position: fixed;
+  position: absolute;
   z-index: 99;
   width: 100%;
   background-color: white;
+
 
   .navBar {
     display: flex;

@@ -1,55 +1,56 @@
 @use '/src/styles/constants/colors';
+@use '/src/styles/mixins/responsive';
 
 .footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   .bannerWrap {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
     height: 140px;
     padding: 0 20px;
     margin: 20px;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 8px 16px rgba(30, 32, 37, 10%);
-
+  
     .bannerDetailWrap {
       display: flex;
       flex-direction: column;
       justify-content: center;
-
-      .titleContent {
-        margin: 10px 0;
-        font-size: 15px;
-        font-weight: 600;
+      .textDetail {
+        display: flex;
+        flex-direction: column;
+        .titleContent {
+          margin: 10px 0;
+          font-size: 15px;
+          font-weight: 600;
+        }
+        .subContent {
+          margin-bottom: 20px;
+          font-weight: 600;
+          color: colors.$PRIMARY;
+        }
       }
-
-      .subContent {
-        margin-bottom: 20px;
-        font-weight: 600;
-        color: colors.$PRIMARY;
-      }
-
+  
       .bannerBtn {
         width: 130px;
         height: 30px;
         font-size: 14px;
-        font-weight: bold;
         color: colors.$WHITE;
         background-color: colors.$PRIMARY;
         border-radius: 50px;
       }
     }
-
+  
     .bannerIcon {
-      position: absolute;
-      right: 0;
       width: 110px;
       height: 110px;
     }
   }
-
+  
   .footerDetail {
     display: flex;
     flex-direction: column;
@@ -57,29 +58,81 @@
     padding: 30px 10px;
     color: colors.$TEXT_FOOTER;
     background-color: colors.$BG_FOOTER;
-
-    .footerDetailTitle {
-      margin-bottom: 20px;
+  
+    .infos {
+      display: flex;
+      flex-direction: column;
+      .footerDetailTitle {
+        margin-bottom: 20px;
+      }
+    
+      .footerLocation {
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+    
+      .footerInc {
+        font-size: 14px;
+      }
+    
+      .footerIcon {
+        width: 90px;
+        padding: 10px;
+        margin: 15px 0;
+      }
     }
 
-    .footerLocation {
-      margin-bottom: 5px;
-      font-size: 14px;
+    .privacy {
+      display: flex;
+      flex-direction: column;
+      
+        .footerPrivacy {
+          margin-bottom: 20px;
+          font-weight: 700;
+        }
     }
+  }
+}
 
-    .footerInc {
-      font-size: 14px;
+@include responsive.after(1040px) {
+  .footer {
+    .bannerWrap {
+      margin: 0;
+      padding: 0px 400px;
+      border-radius: 0;
+      justify-content: space-between;
+      background-color: colors.$BG_FOOTER2;
+      .bannerDetailWrap {
+        .textDetail {
+          flex-direction: row;
+          margin: 20px 20px 20px 0;
+          .titleContent,
+          .subContent {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 700;
+            color: colors.$WHITE;
+          }
+        }    
+        .bannerBtn {
+          width: 170px;
+          height: 50px;
+          font-size: 17px;
+          color: colors.$PRIMARY;
+          background-color: colors.$WHITE;
+          border-radius: 50px;
+        }
+      }
     }
-
-    .footerIcon {
-      width: 90px;
-      padding: 10px;
-      margin: 15px 0;
-    }
-
-    .footerPrivacy {
-      margin-bottom: 20px;
-      font-weight: 700;
+    .footerDetail {
+      flex-direction: row;
+      justify-content: space-between;
+      .infos {
+        margin-left: 200px;
+      }
+      .privacy {
+        margin-right: 200px;
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import useQueryDebounce from 'hooks/useQueryDebounce'
@@ -7,9 +7,13 @@ import { getDiseaseAPi } from 'services/disease'
 import { SearchIcon } from 'assets/svgs'
 import styles from './mainView.module.scss'
 import SearchItem from './SearchItem'
+import Loading from './Loading'
+import NoSearch from './NoSearch'
+import handleKeyboardFunc from 'utils/keyboard/handleKeyboardFunc'
+import useHandleResetOrder from 'hooks/useHandleResetOrder'
 
 const diseaseFetch = (searchValue: string) => {
-  if (searchValue === '') return undefined
+  if (searchValue === '') return []
 
   console.log('api 호출')
 
@@ -18,6 +22,7 @@ const diseaseFetch = (searchValue: string) => {
       sickCd: string
       sickNm: string
     }[] = []
+
     const itemResult = res.data.response.body.items.item
 
     if (itemResult === undefined) return searchResult
@@ -31,7 +36,7 @@ const MainView = () => {
   const [focusedItemIndex, setFocusItemIndex] = useState(-1)
   const selectedUlRef = useRef<HTMLUListElement>(null)
 
-  const debounceInputValue = useQueryDebounce(inputValue, 1000)
+  const debounceInputValue = useQueryDebounce(inputValue, 300)
 
   const { data: diseaseSearchResult, isLoading } = useQuery(
     ['diseaseData', debounceInputValue],
@@ -51,36 +56,12 @@ const MainView = () => {
   }
 
   const handleListArrowKey = (e: KeyboardEvent<HTMLFormElement>) => {
-    if (diseaseSearchResult && e) {
-      switch (e.key) {
-        case 'ArrowDown':
-          if (selectedUlRef.current?.childElementCount === focusedItemIndex + 1) {
-            setFocusItemIndex(0)
-            break
-          }
-          setFocusItemIndex(focusedItemIndex + 1)
-          break
-        case 'ArrowUp':
-          if (selectedUlRef.current && focusedItemIndex === -1) {
-            setFocusItemIndex(selectedUlRef.current.childElementCount)
-            break
-          }
-          if (focusedItemIndex < 0) {
-            setFocusItemIndex(-1)
-            break
-          }
-          setFocusItemIndex(focusedItemIndex - 1)
-          break
-        case 'Escape':
-          setFocusItemIndex(-1)
-          break
-      }
-    }
+    handleKeyboardFunc(diseaseSearchResult, focusedItemIndex, selectedUlRef, setFocusItemIndex, e)
   }
 
-  useEffect(() => {
-    setFocusItemIndex(-1)
-  }, [diseaseSearchResult])
+  useHandleResetOrder(setFocusItemIndex, diseaseSearchResult)
+
+  console.log(diseaseSearchResult)
 
   return (
     <main className={styles.main}>
@@ -99,15 +80,16 @@ const MainView = () => {
       {inputValue && (
         <ul ref={selectedUlRef} className={styles.searchItemUl}>
           <li className={styles.recommendSearchLi}>추천 검색어</li>
-          {isLoading && <li>Loading...</li>}
-
-          {diseaseSearchResult === undefined ? (
-            <li>검색어 없음</li>
-          ) : (
-            diseaseSearchResult.map((disease, idx) => (
-              <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === focusedItemIndex} />
-            ))
-          )}
+          <Loading isView={isLoading} />
+          <NoSearch isView={diseaseSearchResult} />
+          {diseaseSearchResult?.map((disease, idx) => (
+            <SearchItem
+              key={disease.sickCd}
+              diseaseName={disease.sickNm}
+              isFocus={idx === focusedItemIndex}
+              inputValue={debounceInputValue}
+            />
+          ))}
         </ul>
       )}
     </main>

@@ -2,15 +2,13 @@ import NavBar from 'components/navBar'
 import MainView from 'components/mainView'
 import Footer from 'components/footer'
 
-import styles from './home.module.scss'
-
 const Home = () => {
   return (
-    <div className={styles.home}>
+    <>
       <NavBar />
       <MainView />
       <Footer />
-    </div>
+    </>
   )
 }
 
