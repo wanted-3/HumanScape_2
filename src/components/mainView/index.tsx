@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import useQueryDebounce from 'hooks/useQueryDebounce'
@@ -41,6 +41,10 @@ const MainView = () => {
       cacheTime: Infinity,
     }
   )
+
+  const handleForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value)
@@ -85,7 +89,7 @@ const MainView = () => {
         <span>온라인으로 참여하기</span>
       </h1>
 
-      <form className={styles.form} onKeyDown={handleListArrowKey} role='presentation'>
+      <form className={styles.form} onKeyDown={handleListArrowKey} role='presentation' onSubmit={handleForm}>
         <input placeholder='질환명을 입력해 주세요.' value={inputValue} onChange={handleInput} />
         <button type='submit'>
           <SearchIcon className={styles.searchIcon} />

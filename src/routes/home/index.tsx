@@ -1,4 +1,4 @@
-import NavBar from 'components/navBar'
+import NavBar from 'components/navv'
 import MainView from 'components/mainView'
 import Footer from 'components/footer'
 
