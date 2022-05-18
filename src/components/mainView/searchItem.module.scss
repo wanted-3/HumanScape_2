@@ -1,6 +1,6 @@
 @use '/src/styles/constants/colors';
 
-.searchItemLi {
+.searchItem {
   padding: 10px;
 
   &:last-child {
@@ -23,7 +23,7 @@
   }
 }
 
-.focusedLi {
+.focusedItem {
   background-color: colors.$GRAYD;
   border-radius: 12px;
   box-shadow: rgba(99, 99, 99, 20%) 0 2px 8px 0;

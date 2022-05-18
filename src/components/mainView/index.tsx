@@ -1,118 +1,112 @@
-import { SearchIcon } from 'assets/svgs'
-import useQueryDebounce from 'hooks/useQueryDebounce'
-import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
-
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
+
+import useQueryDebounce from 'hooks/useQueryDebounce'
 import { getDiseaseAPi } from 'services/disease'
 
+import { SearchIcon } from 'assets/svgs'
 import styles from './mainView.module.scss'
 import SearchItem from './SearchItem'
 
-const diseaseFetch = (value: string) => {
-  if (value === '') return undefined
+const diseaseFetch = (searchValue: string) => {
+  if (searchValue === '') return undefined
 
   console.log('api 호출')
 
-  return getDiseaseAPi({ searchText: value }).then((res) => res.data.response.body.items.item)
+  return getDiseaseAPi({ searchText: searchValue }).then((res) => {
+    const searchResult: {
+      sickCd: string
+      sickNm: string
+    }[] = []
+    const itemResult = res.data.response.body.items.item
 
-  // return getDiseaseAPi({ searchText: value }).then((res) => {
-  //   const searchData: {
-  //     sickCd: string
-  //     sickNm: string
-  //   }[] = []
+    if (itemResult === undefined) return searchResult
 
-  //   return searchData.concat(res.data.response.body.items.item)
-  // })
+    return searchResult.concat(itemResult)
+  })
 }
 
 const MainView = () => {
-  const [inputVal, setInputVal] = useState('')
-  const [submitValue, setSubmitValue] = useState<string>('')
-  const [index, setIndex] = useState(-1)
-  const selectRef = useRef<HTMLUListElement>(null)
+  const [inputValue, setInputValue] = useState('')
+  const [focusedItemIndex, setFocusItemIndex] = useState(-1)
+  const selectedUlRef = useRef<HTMLUListElement>(null)
 
-  const debounceInput = useQueryDebounce(inputVal, 300)
+  const debounceInputValue = useQueryDebounce(inputValue, 1000)
 
-  const { data: diseaseSearchData, isLoading } = useQuery(
-    ['diseaseData', debounceInput],
-    () => diseaseFetch(debounceInput),
+  const { data: diseaseSearchResult, isLoading } = useQuery(
+    ['diseaseData', debounceInputValue],
+    () => diseaseFetch(debounceInputValue),
     {
       staleTime: Infinity,
       cacheTime: Infinity,
     }
   )
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    setSubmitValue(inputVal)
-  }
-
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputVal(e.currentTarget.value)
+    setInputValue(e.currentTarget.value)
   }
 
-  const handleKeyArrow = (e: KeyboardEvent<HTMLFormElement>) => {
-    if (diseaseSearchData && e) {
+  const handleListArrowKey = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (diseaseSearchResult && e) {
       switch (e.key) {
         case 'ArrowDown':
-          if (selectRef.current?.childElementCount === index + 1) {
-            setIndex(0)
+          if (selectedUlRef.current?.childElementCount === focusedItemIndex + 1) {
+            setFocusItemIndex(0)
             break
           }
-          setIndex(index + 1)
+          setFocusItemIndex(focusedItemIndex + 1)
           break
         case 'ArrowUp':
-          if (selectRef.current && index === -1) {
-            setIndex(selectRef.current.childElementCount)
+          if (selectedUlRef.current && focusedItemIndex === -1) {
+            setFocusItemIndex(selectedUlRef.current.childElementCount)
             break
           }
-          if (index < 0) {
-            setIndex(-1)
+          if (focusedItemIndex < 0) {
+            setFocusItemIndex(-1)
             break
           }
-          setIndex(index - 1)
+          setFocusItemIndex(focusedItemIndex - 1)
           break
         case 'Escape':
-          setIndex(-1)
+          setFocusItemIndex(-1)
           break
       }
     }
   }
 
   useEffect(() => {
-    setIndex(-1)
-  }, [diseaseSearchData])
+    setFocusItemIndex(-1)
+  }, [diseaseSearchResult])
 
   return (
-    <div className={styles.mainWrapper}>
+    <main className={styles.main}>
       <h1 className={styles.title}>
         <span>국내 모든 임상시험 검색하고</span>
         <span>온라인으로 참여하기</span>
       </h1>
 
-      <form className={styles.form} onSubmit={handleSubmit} onKeyDown={handleKeyArrow} role='presentation'>
-        <input placeholder='질환명을 입력해 주세요.' value={inputVal} onChange={handleInput} />
+      <form className={styles.form} onKeyDown={handleListArrowKey} role='presentation'>
+        <input placeholder='질환명을 입력해 주세요.' value={inputValue} onChange={handleInput} />
         <button type='submit'>
           <SearchIcon className={styles.searchIcon} />
         </button>
       </form>
 
-      {inputVal && (
-        <ul ref={selectRef} className={styles.searchItemUl}>
+      {inputValue && (
+        <ul ref={selectedUlRef} className={styles.searchItemUl}>
           <li className={styles.recommendSearchLi}>추천 검색어</li>
           {isLoading && <li>Loading...</li>}
 
-          {diseaseSearchData === undefined ? (
+          {diseaseSearchResult === undefined ? (
             <li>검색어 없음</li>
           ) : (
-            diseaseSearchData.map((disease, idx) => (
-              <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === index} />
+            diseaseSearchResult.map((disease, idx) => (
+              <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === focusedItemIndex} />
             ))
           )}
         </ul>
       )}
-    </div>
+    </main>
   )
 }
 

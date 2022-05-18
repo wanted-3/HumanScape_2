@@ -4,12 +4,12 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-
 import { store } from './states'
 import reportWebVitals from './reportWebVitals'
-import './styles/index.scss'
 
 import Routes from './routes'
+
+import './styles/index.scss'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnMount: false } },
