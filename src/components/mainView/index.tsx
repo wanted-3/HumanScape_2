@@ -7,9 +7,11 @@ import { getDiseaseAPi } from 'services/disease'
 import { SearchIcon } from 'assets/svgs'
 import styles from './mainView.module.scss'
 import SearchItem from './SearchItem'
+import Loading from './Loading'
+import NoSearch from './NoSearch'
 
 const diseaseFetch = (searchValue: string) => {
-  if (searchValue === '') return undefined
+  if (searchValue === '') return []
 
   console.log('api 호출')
 
@@ -82,6 +84,8 @@ const MainView = () => {
     setFocusItemIndex(-1)
   }, [diseaseSearchResult])
 
+  console.log(diseaseSearchResult)
+
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>
@@ -99,15 +103,16 @@ const MainView = () => {
       {inputValue && (
         <ul ref={selectedUlRef} className={styles.searchItemUl}>
           <li className={styles.recommendSearchLi}>추천 검색어</li>
-          {isLoading && <li>Loading...</li>}
-
-          {diseaseSearchResult === undefined ? (
-            <li>검색어 없음</li>
-          ) : (
-            diseaseSearchResult.map((disease, idx) => (
-              <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === focusedItemIndex} />
-            ))
-          )}
+          <Loading isView={isLoading} />
+          <NoSearch isView={diseaseSearchResult} />
+          {diseaseSearchResult?.map((disease, idx) => (
+            <SearchItem
+              key={disease.sickCd}
+              diseaseName={disease.sickNm}
+              isFocus={idx === focusedItemIndex}
+              inputValue={debounceInputValue}
+            />
+          ))}
         </ul>
       )}
     </main>
