@@ -1,13 +1,12 @@
 @use '/src/styles/constants/colors';
 
-.mainWrapper {
+.main {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   height: 800px;
   padding: 80px 10px;
-  background-color: #cae9ff;
 }
 
 .title {
@@ -44,7 +43,7 @@
 
   button {
     position: absolute;
-    left: 92%;
+    right: 30px;
 
     .searchIcon {
       width: 20px;
