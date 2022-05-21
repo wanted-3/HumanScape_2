@@ -13,7 +13,7 @@ const BoldText = ({ text, shouldBeBold }: IBold) => {
       {textArray.map((item, index) => (
         <div key={`boldtext__${index + item}`}>
           <span>{item}</span>
-          {index !== textArray.length - 1 && <b className={styles.bold}>{shouldBeBold}</b>}
+          {index !== textArray.length - 1 && <strong className={styles.bold}>{shouldBeBold}</strong>}
         </div>
       ))}
     </>

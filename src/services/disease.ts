@@ -23,6 +23,6 @@ interface DiseaseApi {
   }
 }
 
-export const getDiseaseAPi = (params: Params) => {
+export const getDiseaseApi = (params: Params) => {
   return axios.get<DiseaseApi>(`${url}`, { params })
 }

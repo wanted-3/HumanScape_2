@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, KeyboardEvent, useRef, useState } fr
 import { useQuery } from 'react-query'
 
 import useQueryDebounce from 'hooks/useQueryDebounce'
-import { getDiseaseAPi } from 'services/disease'
+import { getDiseaseApi } from 'services/disease'
 
 import { SearchIcon } from 'assets/svgs'
 import styles from './mainView.module.scss'
@@ -20,7 +20,7 @@ const diseaseFetch = (searchValue: string) => {
   // eslint-disable-next-line no-console
   console.log('api 호출')
 
-  return getDiseaseAPi({ searchText: searchValue }).then((res) => {
+  return getDiseaseApi({ searchText: searchValue }).then((res) => {
     const searchResult: {
       sickCd: string
       sickNm: string
