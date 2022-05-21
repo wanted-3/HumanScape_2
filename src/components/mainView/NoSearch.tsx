@@ -1,5 +1,11 @@
-const NoSearch = ({ isView }: any) => {
-  return <div>{isView && isView.length === 0 && <div>검색어 없음</div>}</div>
+interface INoSearch {
+  isView: () => boolean | undefined
+}
+
+const NoSearch = ({ isView }: INoSearch) => {
+  if (!isView()) return null
+
+  return <div>검색어 없음</div>
 }
 
 export default NoSearch

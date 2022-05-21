@@ -17,6 +17,7 @@ import { searchState } from 'states/search'
 const diseaseFetch = (searchValue: string) => {
   if (searchValue === '') return []
 
+  // eslint-disable-next-line no-console
   console.log('api 호출')
 
   return getDiseaseAPi({ searchText: searchValue }).then((res) => {
@@ -69,6 +70,8 @@ const MainView = () => {
 
   useHandleResetOrder(setFocusItemIndex, diseaseSearchResult)
 
+  const isViewNoSearch = () => diseaseSearchResult && diseaseSearchResult.length === 0
+
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>
@@ -87,7 +90,7 @@ const MainView = () => {
         <ul ref={selectedUlRef} className={styles.searchItemUl}>
           <li className={styles.recommendSearchLi}>추천 검색어</li>
           <Loading isView={isLoading} />
-          <NoSearch isView={diseaseSearchResult} />
+          <NoSearch isView={isViewNoSearch} />
           {diseaseSearchResult?.map((disease, idx) => (
             <SearchItem key={disease.sickCd} diseaseName={disease.sickNm} isFocus={idx === focusedItemIndex} />
           ))}

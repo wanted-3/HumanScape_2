@@ -14,10 +14,10 @@
     height: 140px;
     padding: 0 20px;
     margin: 20px;
-    border-radius: 15px;
     background-color: white;
+    border-radius: 15px;
     box-shadow: 0 8px 16px rgba(30, 32, 37, 10%);
-  
+
     .bannerDetailWrap {
       display: flex;
       flex-direction: column;
@@ -39,7 +39,7 @@
           color: colors.$PRIMARY;
         }
       }
-  
+
       .bannerBtn {
         width: 130px;
         height: 30px;
@@ -49,7 +49,7 @@
         border-radius: 50px;
       }
     }
-  
+
     .bannerIcon {
       width: 110px;
       height: 110px;
@@ -60,69 +60,69 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 50px 20px 60px 20px;
+    padding: 50px 20px 60px;
     background-color: colors.$BG_FOOTER;
 
     .footerDetail {
       display: flex;
       flex-direction: column;
       color: colors.$TEXT_FOOTER;
-    
+
       .infos {
         display: flex;
         flex-direction: column;
+
         .footerDetailTitle {
           margin-bottom: 20px;
         }
-      
+
         .footerLocation {
           margin-bottom: 5px;
           font-size: 14px;
         }
-      
+
         .footerInc {
           font-size: 14px;
         }
-      
+
         .footerIcon {
           width: 90px;
           padding: 10px;
           margin: 15px 0;
         }
       }
-  
+
       .privacy {
         display: flex;
         flex-direction: column;
 
-          .footerPrivacy {
-            margin-bottom: 20px;
-            font-weight: 700;
-          }
+        .footerPrivacy {
+          margin-bottom: 20px;
+          font-weight: 700;
+        }
       }
     }
   }
-  }
+}
 
 @include responsive.after(1040px) {
   .footer {
     .bannerWrap {
-      margin: 0;
-      padding: 0px 20vw;
-      border-radius: 0;
       justify-content: space-between;
+      padding: 0 20vw;
+      margin: 0;
       background-color: colors.$BG_FOOTER2;
+      border-radius: 0;
 
       .bannerDetailWrap {
-        
         .textDetail {
           flex-direction: row;
           margin: 20px 20px 20px 0;
 
           .titleContent,
           .subContent {
-            font-size: 18px;
             margin: 0;
+            font-size: 18px;
             font-weight: 700;
             color: colors.$WHITE;
           }
@@ -144,11 +144,11 @@
       padding: 20px;
 
       .footerDetail {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         width: 100%;
         max-width: 1000px;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
         height: 200px;
 
         .infos {
