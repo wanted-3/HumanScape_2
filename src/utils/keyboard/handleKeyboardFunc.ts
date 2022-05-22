@@ -9,6 +9,7 @@ const handleKeyboardFunc = (
   e: KeyboardEvent<HTMLFormElement>
 ) => {
   if (diseaseSearchResult) {
+    if (e.nativeEvent.isComposing) return
     switch (e.key) {
       case 'ArrowDown':
         if (selectedUlRef.current?.childElementCount === focusedItemIndex + 1) {
