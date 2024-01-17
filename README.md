@@ -50,7 +50,7 @@ yarn install && yarn start
 ```
 [API KEY 받는 곳](https://www.data.go.kr/data/15001675/openapi.do)
 
-1. https://cheerful-sable-9671a2.netlify.app/에 접속하여, 원하는 검색어를 검색창에 입력합니다. [암,염,병으로 테스트가능]
+1. https://cheerful-sable-9671a2.netlify.app/ 에 접속하여, 원하는 검색어를 검색창에 입력합니다. [암,염,병으로 테스트가능]
 
 2. 검색창 밑으로 해당 검색어가 굵은 글씨 처리된 추천 검색어 목록이 나타납니다.
 
